@@ -1,0 +1,110 @@
+
+#include "get_next_line_bonus.h"
+
+static char	*ft_read_line(int fd, char *backup)
+{
+	char	*buffer;
+	int		read_bytes;
+
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buffer)
+	{
+		free(backup);
+		return (NULL);
+	}
+	read_bytes = 1;
+	while (!ft_strchr(backup, '\n') && read_bytes != 0)
+	{
+		read_bytes = read(fd, buffer, BUFFER_SIZE);
+		if (read_bytes == -1)
+		{
+			free(buffer);
+			free(backup);
+			return (NULL);
+		}
+		buffer[read_bytes] = '\0';
+		backup = ft_strjoin(backup, buffer);
+	}
+	free(buffer);
+	return (backup);
+}
+
+static char	*ft_cut_line(char *backup)
+{
+	int		i;
+	char	*line;
+
+	i = 0;
+	if (!backup || !backup[0])
+		return (NULL);
+	while (backup[i] && backup[i] != '\n')
+		i++;
+	line = malloc((i + 2) * sizeof(char));
+	if (!line)
+		return (NULL);
+	i = 0;
+	while (backup[i] && backup[i] != '\n')
+	{
+		line[i] = backup[i];
+		i++;
+	}
+	if (backup[i] == '\n')
+	{
+		line[i] = backup[i];
+		i++;
+	}
+	line[i] = '\0';
+	return (line);
+}
+
+static char	*ft_store_rest(char *backup)
+{
+	int		i;
+	int		j;
+	char	*new_backup;
+
+	i = 0;
+	while (backup[i] && backup[i] != '\n')
+		i++;
+	if (!backup[i])
+	{
+		free(backup);
+		return (NULL);
+	}
+	new_backup = malloc((ft_strlen(backup) - i + 1) * sizeof(char));
+	if (!new_backup)
+	{
+		free(backup);
+		return (NULL);
+	}
+	i++;
+	j = 0;
+	while (backup[i])
+		new_backup[j++] = backup[i++];
+	new_backup[j] = '\0';
+	free(backup);
+	return (new_backup);
+}
+
+char	*get_next_line(int fd)
+{
+	char		*line;
+	static char	*backup[4096];
+
+	if (fd < 0 || fd >= 4096 || BUFFER_SIZE <= 0)
+		return (NULL);
+	if (!backup[fd])
+	{
+		backup[fd] = malloc(1 * sizeof(char));
+		if (!backup[fd])
+			return (NULL);
+		backup[fd][0] = '\0';
+	}
+	if (!ft_strchr(backup[fd], '\n'))
+		backup[fd] = ft_read_line(fd, backup[fd]);
+	if (!backup[fd])
+		return (NULL);
+	line = ft_cut_line(backup[fd]);
+	backup[fd] = ft_store_rest(backup[fd]);
+	return (line);
+}
