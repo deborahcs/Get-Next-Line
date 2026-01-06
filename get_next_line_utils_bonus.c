@@ -1,4 +1,3 @@
-
 #include "get_next_line_bonus.h"
 
 size_t	ft_strlen(const char *str)
@@ -13,50 +12,50 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-char	*ft_strchr(const char *str, int c)
+char	*ft_strchr(const char *backup, int c)
 {
 	int		i;
 	char	ptr;
 
 	i = 0;
-	if (!str)
+	if (!backup)
 		return (NULL);
 	ptr = ((char)c);
-	while (str[i])
+	while (backup[i])
 	{
-		if (str[i] == ptr)
-			return ((char *)&str[i]);
+		if (backup[i] == ptr)
+			return ((char *)&backup[i]);
 		i++;
 	}
-	if (str[i] == ptr)
-		return ((char *)&str[i]);
+	if (backup[i] == ptr)
+		return ((char *)&backup[i]);
 	return (NULL);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *backup, char *buffer)
 {
 	char	*new;
 	size_t	i;
 	size_t	j;
+	size_t	len;
 
 	i = 0;
 	j = 0;
-	if (!s1 || !s2)
+	if (!backup || !buffer)
 		return (NULL);
-	new = (char *)malloc(sizeof (char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	len = ft_strlen(backup) + ft_strlen(buffer);
+	new = (char *)malloc(sizeof (char) * (len + 1));
 	if (!new)
 	{
-		free(s1);
+		free(backup);
 		return (NULL);
 	}
-	while (s1[i])
-	{
-		new[i] = s1[i];
-		i++;
-	}
-	while (s2[j])
-		new[i++] = s2[j++];
+	i = -1;
+	while (backup[++i])
+		new[i] = backup[i];
+	while (buffer[j])
+		new[i++] = buffer[j++];
 	new[i] = '\0';
-	free (s1);
+	free (backup);
 	return (new);
 }
