@@ -45,6 +45,8 @@ cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line_bonus.c get_next_line_u
 > - [get_next_line explained : develop a function that reads a file line by line](https://www.youtube.com/watch?v=8E9siq7apUU&t=1569s)
 > - [What is a static variable?](https://www.youtube.com/watch?v=OngGUoENgWo&t=1s)
 > - [Inside Linux File Descriptors - Mastering the Basics](https://www.youtube.com/watch?v=saMebwRO-Q8)
+- Another useful links:
+> - [Article about GNL at Notion] (https://suspectedoceano.notion.site/get_next_line-b3fa44d60dc24817bfd6a642183a93a0)
 
 Also I consulted the Manuals for file control: man 2 read, man 2 open, and man 3 malloc.
 
