@@ -1,5 +1,5 @@
 
-*This project has been created as part of the 42 curriculum by <decabral>.*
+*This project has been created as part of the 42 curriculum by decabral.*
 
 # **Description:**
 - The goal of this project is to create a function that reads a text pointed to by `fd` (file descriptor) one line at a time, followd by a `\n` (new line), except when the end of the file is reached and does not end with `\n` character. `get_next_line` returns the line that was read and if there is nothing left to read or an error occurs, it should return `NULL`.
