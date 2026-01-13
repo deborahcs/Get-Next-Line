@@ -6,7 +6,7 @@ static char	*ft_read_line(int fd, char *backup)
 	char	*buffer;
 	int		read_bytes;
 
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	buffer = (char *)malloc(((size_t)BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 	{
 		free(backup);
@@ -39,7 +39,7 @@ static char	*ft_cut_line(char *backup)
 		return (NULL);
 	while (backup[i] && backup[i] != '\n')
 		i++;
-	line = malloc((i + 2) * sizeof(char));
+	line = (char *)malloc((i + 2) * sizeof(char));
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -71,7 +71,7 @@ static char	*ft_store_rest(char *backup)
 		free(backup);
 		return (NULL);
 	}
-	new_backup = malloc((ft_strlen(backup) - i + 1) * sizeof(char));
+	new_backup = (char *)malloc((ft_strlen(backup) - i + 1) * sizeof(char));
 	if (!new_backup)
 	{
 		free(backup);
@@ -89,9 +89,9 @@ static char	*ft_store_rest(char *backup)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*backup[4096];
+	static char	*backup[1024] = {NULL};
 
-	if (fd < 0 || fd >= 4096 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd >= 1024 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!backup[fd])
 	{
